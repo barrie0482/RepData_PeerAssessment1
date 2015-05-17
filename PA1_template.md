@@ -1,9 +1,4 @@
----
-title: "Reproducible Research: Peer Assessment 1"
-output: 
-  html_document:
-    keep_md: true
----
+# Reproducible Research: Peer Assessment 1
 
 This report is an answer to the **Reproducible Research: Peer Assessment 1** assignment completed as part of the [Reproducible Research] [1] course in the [Data Science Specialization][2] offered by [Coursera][3] and run by [Johns Hopkins University][4].  
 
@@ -19,7 +14,8 @@ The data set for this assignment is available at the course website
 The zip file containing the data was also provided with the forked repository from Github. Both files were compared and found to be the same. The zip file from the repository was used for this report.
 
 The data was unzipped and loaded from the zip file. The data file was pre-processed to fill empty variables with NA's. 
-```{r Load_PreProcess_Data,echo = TRUE}
+
+```r
 # Read the data from zip file
  mydata <- read.csv(unzip("activity.zip","activity.csv"), header = TRUE,
                    na.strings=c(NA,""), stringsAsFactors=FALSE )
@@ -29,7 +25,8 @@ The data was unzipped and loaded from the zip file. The data file was pre-proces
 
 ### **What is mean total number of steps taken per day?**
 
-```{r CalculateMeanMedian,echo = TRUE }
+
+```r
 # Create a sum of the steps per day
  steps.per.day.sum <- aggregate(mydata$steps, by=list(Date=mydata$date), FUN=sum, na.rm=TRUE)
  names(steps.per.day.sum)[2] <- "steps"
@@ -39,18 +36,18 @@ The data was unzipped and loaded from the zip file. The data file was pre-proces
 ```
 
 
-The mean total number of steps taken per day is **`r round(mean.steps.per.day,2)`**. Instructions for this part of the assignment advised that missing values can be ignored in the dataset. Calculations for this question included *na.rm=TRUE* to ignore the missing values.
+The mean total number of steps taken per day is **9354.23**. Instructions for this part of the assignment advised that missing values can be ignored in the dataset. Calculations for this question included *na.rm=TRUE* to ignore the missing values.
 
 The histogram below show shows the frequency distribution of the quantative variable *steps* which is the sum of steps per day. The two vertical lines indicate the mean and median values of the sum of the steps per day.
 
 The calulated value for mean and median of the total number of steps taken per day are as follows.
 
-Mean of the total number of steps taken per day : **`r round(mean.steps.per.day,2)`**  
-Median of the total number of steps taken per day: **`r format(round(median.steps.per.day,2), scientific=F)`**  
+Mean of the total number of steps taken per day : **9354.23**  
+Median of the total number of steps taken per day: **10395**  
 
 
-```{r Histogram,echo = TRUE}
 
+```r
 # Draw the histogram
  hist(steps.per.day.sum$steps, breaks = 20, col = "darkgreen",xlab = "Sum of steps per day",
      ylim=c(0,15), main="Total number of steps taken per day")
@@ -62,9 +59,12 @@ Median of the total number of steps taken per day: **`r format(round(median.step
  legend(17000,9.5, c("Mean","Median"),lty = c(1,2),lwd = c(3,3),col = c("red","orange") )
 ```
 
+![](PA1_template_files/figure-html/Histogram-1.png) 
+
 ### **What is the average daily activity pattern?**
 
-```{r CalculateMaxSteps,echo = TRUE}
+
+```r
 # Create a new factor variable with the time in the required format
  mydata$mytime <- as.factor(substr(as.POSIXct(sprintf("%04.0f", mydata$interval), format='%H%M'), 12, 16))
 # Create an average of the steps per day.
@@ -77,11 +77,11 @@ Median of the total number of steps taken per day: **`r format(round(median.step
 #### **Average maximum number of steps taken per day**
 The chart below shows the average daily activity pattern for the study period. The data shows the main span of activity is between 05:40 and 20:00. 
   
-The interval with the average maximum number of steps taken per day is **`r max.steps`**.  
+The interval with the average maximum number of steps taken per day is **08:35**.  
 
 
-```{r Daily_Activity_Pattern,echo = TRUE}
 
+```r
 # Create the main plot
  plot(as.numeric(mean.interval$interval),mean.interval$average.steps,type = "l",col = "red",lwd = 2, xlab = "Interval (5 min per interval)", ylab="Average steps per Interval", main="Average daily activity pattern",axes=FALSE)
 # Add the mean line
@@ -98,15 +98,18 @@ The interval with the average maximum number of steps taken per day is **`r max.
  axis(2)
 ```
 
+![](PA1_template_files/figure-html/Daily_Activity_Pattern-1.png) 
+
 ### **Imputing missing values**
 
-```{r Num_of_NA,echo = TRUE}
+
+```r
 # Calculate the number of missing values
 mynas <- sum(is.na(mydata$steps))
-
 ```
-The calculated number of missing values in the dataset (i.e. the total number of rows with NAs) is **`r mynas`.** 
-```{r ImputeStrategy,echo = TRUE}
+The calculated number of missing values in the dataset (i.e. the total number of rows with NAs) is **2304.** 
+
+```r
 # Load library
  suppressMessages(library(dplyr))
 # Make a copy of the main dataset to work with
@@ -127,32 +130,34 @@ The calculated number of missing values in the dataset (i.e. the total number of
 #### **Missing Values Imputing Strategy**
 The strategy I selected for imputing missing (filling in all of the missing values) in the dataset was to use the mean number of steps for the 5 minute interval.  This will assign a value of the 5 minute mean number of steps to the intervals without readings which should give a better estimate of the total number of steps in the study period. 
 
-```{r Create_new_dataset,echo = TRUE}
+
+```r
  steps.per.day.sum.impute <- aggregate(mytmp$steps, by=list(Date=mytmp$date), FUN=sum, na.rm=TRUE)
  names(steps.per.day.sum.impute)[2] <- "steps"
  
  mean.steps.per.day.impute <- mean(steps.per.day.sum.impute$steps,na.rm=TRUE)
  median.steps.per.day.impute <- median(steps.per.day.sum.impute$steps,na.rm=TRUE)
- 
-``` 
+```
 
 
 A new dataset was created that is equal to the original dataset but with the missing data filled in. A new histogram was created using the new dataset.
  
  
-```{r Histogram2,echo = TRUE}
+
+```r
  hist(steps.per.day.sum.impute$steps, breaks = 20, col = "darkgreen",xlab = "Sum of steps per day",
       main="Total number of steps taken per day (with imputed values)")
  abline(v = mean.steps.per.day.impute,col="red",lwd=3,lty=1 )
  abline(v = median.steps.per.day.impute,col="orange",lwd=3,lty=2)
  legend(17000,9.5, c("Mean","Median"),lty = c(1,2),lwd = c(3,3),col = c("red","orange") )
- 
 ```
+
+![](PA1_template_files/figure-html/Histogram2-1.png) 
 
 The calulated values for mean and median of the total number of steps, taken per day, with the imputed values are as follows.
 
- Mean of the total number of steps taken per day: **`r format(round(mean.steps.per.day.impute,2), scientific=F)`**  
- Median of the total number of steps taken per day: **`r format(round(median.steps.per.day.impute,2), scientific=F)`**  
+ Mean of the total number of steps taken per day: **10766.19**  
+ Median of the total number of steps taken per day: **10766.19**  
  
 The values of mean and median for this part of the assignment have increased from the estimates calculated in the first part of the assignment. The mean and the median values for this part of the assignment are also equal.
 
@@ -166,7 +171,8 @@ The chart below shows the differences in the daily activity pattern for weekdays
 
 The interval with the maximum average number of steps taken per day is still on a weekday. 
 
-```{r WeekdayWeekend, echo = TRUE}
+
+```r
 # Load Libraries
 library(ggplot2)
 library(scales)
@@ -193,7 +199,8 @@ xxlab <- c("00:00","02:00","04:00","06:00","08:00","10:00","12:00","14:00","16:0
 xxbreak <- seq(0,288,by=24)
 ```
 
-```{r WeekdayWeekendPlot, echo = TRUE}
+
+```r
 # Create the plot
 g <- ggplot(data = mean.interval,aes(x=as.numeric(interval),y=average.steps))
 # Draw the plot line and create the panel plot
@@ -202,8 +209,9 @@ g + geom_line(color="blue") + facet_grid(period ~ .) +
     scale_x_continuous(breaks = xxbreak, labels= xxlab) +
 # Create the plot labels
     labs(title = "Average daily activity pattern for weekdays and weekends", x = "Interval (5 min per interval)",y = "Average steps per Interval")
-
 ```
+
+![](PA1_template_files/figure-html/WeekdayWeekendPlot-1.png) 
 
 [1]: https://class.coursera.org/repdata-014/ "Reproducible Research"
 [2]: https://www.coursera.org/specialization/jhudatascience/1?utm_medium=listingPage "Data Science Specialization"
