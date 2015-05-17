@@ -7,7 +7,7 @@ output:
 
 This report is an answer to the **Reproducible Research: Peer Assessment 1** assignment completed as part of the [Reproducible Research] [1] course in the [Data Science Specialization][2] offered by [Coursera][3] and run by [Johns Hopkins University][4].  
 
-The data used in this report from personal activity monitoring devices like Fitbit, Nike Fuelband or Jawbone Up. 
+The data used in this report is from personal activity monitoring devices like Fitbit, Nike Fuelband or Jawbone Up. 
 This data consists of two months of daily readings taken at five minute intervals between October 2012 and November 2012. 
 
 Instructions for completing this assignment are located in the **Reproducible Research: Peer Assessment 1** section of the course website or in the README in this repo.
@@ -83,7 +83,8 @@ The interval with the average maximum number of steps taken per day is **`r max.
 ```{r Daily_Activity_Pattern,echo = TRUE}
 
 # Create the main plot
- plot(as.numeric(mean.interval$interval),mean.interval$average.steps,type = "l",col = "red",lwd = 2, xlab = "Interval (5 min per interval)", ylab="Average steps per Interval", main="Average daily activity pattern",axes=FALSE)
+ plot(as.numeric(mean.interval$interval),mean.interval$average.steps,type = "l",col = "red",lwd = 2, xlab = "Interval (5 min per interval)", ylab="Average steps per Interval", 
+      main="Average daily activity pattern",axes=FALSE)
 # Add the mean line
  abline(v = max.steps,col="blue",lwd=3,lty=2 )
 # Add the Legend
@@ -91,7 +92,8 @@ The interval with the average maximum number of steps taken per day is **`r max.
 # Set the breaks for the x axis
  xxbreak <- seq(0,288,by=24)
 # Set the labels for the x axis
- xxlab <- c("00:00","02:00","04:00","06:00","08:00","10:00","12:00","14:00","16:00","18:00","20:00","22:00","23:30")
+ xxlab <- c("00:00","02:00","04:00","06:00","08:00","10:00","12:00","14:00","16:00","18:00","20:00",
+            "22:00","23:30")
 # Create the x axis
  axis(1, at = xxbreak, labels = xxlab)
  # Create the y axis
@@ -179,16 +181,19 @@ mydata$period <- ifelse(mydata$period == FALSE, "weekday", "weekend")
 mydata.weekend <- filter(mydata,period == "weekend")
 mydata.weekday <- filter(mydata,period == "weekday")
 # Create an average of the steps per day for weekend.
-mean.interval.weekend <- aggregate(mydata.weekend$steps, by=list(mydata.weekend$mytime,mydata.weekend$period), FUN=mean, na.rm=TRUE)
+mean.interval.weekend <- aggregate(mydata.weekend$steps, by=list(mydata.weekend$mytime,mydata.weekend$period),
+                                   FUN=mean, na.rm=TRUE)
 # Create an average of the steps per day for weekday
-mean.interval.weekday <- aggregate(mydata.weekday$steps, by=list(mydata.weekday$mytime,mydata.weekday$period), FUN=mean, na.rm=TRUE)
+mean.interval.weekday <- aggregate(mydata.weekday$steps, by=list(mydata.weekday$mytime,mydata.weekday$period),
+                                   FUN=mean, na.rm=TRUE)
 # Fix Column names
 names(mean.interval.weekend) <- c("interval","period","average.steps")
 names(mean.interval.weekday) <- c("interval","period","average.steps")
 # Join the mean weekend and weekend tables together
 mean.interval <- rbind(mean.interval.weekend,mean.interval.weekday)
 # Set the labels for the x axis
-xxlab <- c("00:00","02:00","04:00","06:00","08:00","10:00","12:00","14:00","16:00","18:00","20:00","22:00","23:30")
+xxlab <- c("00:00","02:00","04:00","06:00","08:00","10:00","12:00","14:00","16:00","18:00","20:00",
+           "22:00","23:30")
 # Set the breaks for the x axis
 xxbreak <- seq(0,288,by=24)
 ```
@@ -201,7 +206,8 @@ g + geom_line(color="blue") + facet_grid(period ~ .) +
 # Create the x axis
     scale_x_continuous(breaks = xxbreak, labels= xxlab) +
 # Create the plot labels
-    labs(title = "Average daily activity pattern for weekdays and weekends", x = "Interval (5 min per interval)",y = "Average steps per Interval")
+    labs(title = "Average daily activity pattern for weekdays and weekends", 
+         x = "Interval (5 min per interval)",y = "Average steps per Interval")
 
 ```
 
