@@ -109,7 +109,7 @@ The interval with the average maximum number of steps taken per day is **08:35**
 # Calculate the number of missing values
 mynas <- sum(is.na(mydata$steps))
 ```
-The calculated number of missing values in the dataset (i.e. the total number of rows with NAs) is **2304.** 
+The calculated number of missing values in the dataset (i.e. the total number of rows with NAs) is **2304.** #### **Missing Values Imputing Strategy**
 
 ```r
 # Load library
@@ -122,21 +122,22 @@ The calculated number of missing values in the dataset (i.e. the total number of
  mean.interval <- aggregate(mydata$steps, by=list(mydata$interval), FUN=mean, na.rm=TRUE)
 # Fix column names
  names(mean.interval) <- c("interval","average.steps")
-# Replace NA's with with the average daily steps for the time period 
+# Impute values by replacing NA's with with the average daily steps for the time period 
  for (i in 1:nrow(mytmp)){
         if (is.na(mytmp$steps[i])) {
                 mytmp$steps[i] <- filter(mean.interval,interval==mytmp$interval[i])$average.steps
         }
 }
 ```
-#### **Missing Values Imputing Strategy**
+
 The strategy I selected for imputing missing (filling in all of the missing values) in the dataset was to use the mean number of steps for the 5 minute interval.  This will assign a value of the 5 minute mean number of steps to the intervals without readings which should give a better estimate of the total number of steps in the study period. 
 
 
 ```r
+ # Create new dataset with imputed values
  steps.per.day.sum.impute <- aggregate(mytmp$steps, by=list(Date=mytmp$date), FUN=sum, na.rm=TRUE)
  names(steps.per.day.sum.impute)[2] <- "steps"
- 
+ # Calculate mean and median for new dataset with imputed values
  mean.steps.per.day.impute <- mean(steps.per.day.sum.impute$steps,na.rm=TRUE)
  median.steps.per.day.impute <- median(steps.per.day.sum.impute$steps,na.rm=TRUE)
 ```
@@ -147,10 +148,13 @@ A new dataset was created that is equal to the original dataset but with the mis
  
 
 ```r
+ # Create histogram
  hist(steps.per.day.sum.impute$steps, breaks = 20, col = "darkgreen",xlab = "Sum of steps per day",
       main="Total number of steps taken per day (with imputed values)")
+ # Create mean and median lines
  abline(v = mean.steps.per.day.impute,col="red",lwd=3,lty=1 )
  abline(v = median.steps.per.day.impute,col="orange",lwd=3,lty=2)
+ # Create legebnd
  legend(17000,9.5, c("Mean","Median"),lty = c(1,2),lwd = c(3,3),col = c("red","orange") )
 ```
 
