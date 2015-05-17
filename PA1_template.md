@@ -109,7 +109,13 @@ The interval with the average maximum number of steps taken per day is **08:35**
 # Calculate the number of missing values
 mynas <- sum(is.na(mydata$steps))
 ```
-The calculated number of missing values in the dataset (i.e. the total number of rows with NAs) is **2304.** #### **Missing Values Imputing Strategy**
+  
+The calculated number of missing values in the dataset (i.e. the total number of rows with NAs) is **2304.**      
+
+
+
+####**Missing Values Imputing Strategy**
+  
 
 ```r
 # Load library
@@ -154,7 +160,7 @@ A new dataset was created that is equal to the original dataset but with the mis
  # Create mean and median lines
  abline(v = mean.steps.per.day.impute,col="red",lwd=3,lty=1 )
  abline(v = median.steps.per.day.impute,col="orange",lwd=3,lty=2)
- # Create legebnd
+ # Create legend
  legend(17000,9.5, c("Mean","Median"),lty = c(1,2),lwd = c(3,3),col = c("red","orange") )
 ```
 

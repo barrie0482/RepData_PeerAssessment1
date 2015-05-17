@@ -107,7 +107,13 @@ The interval with the average maximum number of steps taken per day is **`r max.
 mynas <- sum(is.na(mydata$steps))
 
 ```
-The calculated number of missing values in the dataset (i.e. the total number of rows with NAs) is **`r mynas`.** #### **Missing Values Imputing Strategy**
+  
+The calculated number of missing values in the dataset (i.e. the total number of rows with NAs) is **`r mynas`.**      
+
+
+
+####**Missing Values Imputing Strategy**
+  
 ```{r ImputeStrategy,echo = TRUE}
 # Load library
  suppressMessages(library(dplyr))
