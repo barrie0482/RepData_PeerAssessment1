@@ -83,7 +83,11 @@ img {
  names(steps.per.day.sum)[2] &lt;- &quot;steps&quot;
 # Calculate means and median steps per day
  mean.steps.per.day &lt;- mean(steps.per.day.sum$steps, na.rm=TRUE)
- median.steps.per.day &lt;- median(steps.per.day.sum$steps, na.rm=TRUE)</code></pre>
+ mean.steps.per.day</code></pre>
+<pre><code>## [1] 9354.23</code></pre>
+<pre class="r"><code> median.steps.per.day &lt;- median(steps.per.day.sum$steps, na.rm=TRUE)
+ median.steps.per.day</code></pre>
+<pre><code>## [1] 10395</code></pre>
 <p>The mean total number of steps taken per day is <strong>9354.23</strong>. Instructions for this part of the assignment advised that missing values can be ignored in the dataset. Calculations for this question included <em>na.rm=TRUE</em> to ignore the missing values.</p>
 <p>The histogram below show shows the frequency distribution of the quantative variable <em>steps</em> which is the sum of steps per day. The two vertical lines indicate the mean and median values of the sum of the steps per day.</p>
 <p>The calulated value for mean and median of the total number of steps taken per day are as follows.</p>
@@ -108,7 +112,10 @@ img {
 # Fix the column headings
  names(mean.interval) &lt;- c(&quot;interval&quot;,&quot;average.steps&quot;)
 # Calculate interval for average maximum steps
- max.steps &lt;- mean.interval[which(mean.interval$average.steps==max(mean.interval$average.steps,na.rm = TRUE)),][[1]]</code></pre>
+ max.steps &lt;- mean.interval[which(mean.interval$average.steps==max(mean.interval$average.steps,na.rm = TRUE)),][[1]]
+ max.steps</code></pre>
+<pre><code>## [1] 08:35
+## 288 Levels: 00:00 00:05 00:10 00:15 00:20 00:25 00:30 00:35 00:40 ... 23:55</code></pre>
 <div id="average-maximum-number-of-steps-taken-per-day" class="section level4">
 <h4><strong>Average maximum number of steps taken per day</strong></h4>
 <p>The chart below shows the average daily activity pattern for the study period. The data shows the main span of activity is between 05:40 and 20:00.</p>
@@ -135,7 +142,9 @@ img {
 <div id="imputing-missing-values" class="section level3">
 <h3><strong>Imputing missing values</strong></h3>
 <pre class="r"><code># Calculate the number of missing values
-mynas &lt;- sum(is.na(mydata$steps))</code></pre>
+mynas &lt;- sum(is.na(mydata$steps))
+mynas</code></pre>
+<pre><code>## [1] 2304</code></pre>
 <p>The calculated number of missing values in the dataset (i.e. the total number of rows with NAs) is <strong>2304.</strong></p>
 <div id="missing-values-imputing-strategy" class="section level4">
 <h4><strong>Missing Values Imputing Strategy</strong></h4>
@@ -161,7 +170,11 @@ mynas &lt;- sum(is.na(mydata$steps))</code></pre>
  names(steps.per.day.sum.impute)[2] &lt;- &quot;steps&quot;
  # Calculate mean and median for new dataset with imputed values
  mean.steps.per.day.impute &lt;- mean(steps.per.day.sum.impute$steps,na.rm=TRUE)
- median.steps.per.day.impute &lt;- median(steps.per.day.sum.impute$steps,na.rm=TRUE)</code></pre>
+ mean.steps.per.day.impute</code></pre>
+<pre><code>## [1] 10766.19</code></pre>
+<pre class="r"><code> median.steps.per.day.impute &lt;- median(steps.per.day.sum.impute$steps,na.rm=TRUE)
+ median.steps.per.day.impute</code></pre>
+<pre><code>## [1] 10766.19</code></pre>
 <p>A new dataset was created that is equal to the original dataset but with the missing data filled in. A new histogram was created using the new dataset.</p>
 <pre class="r"><code> # Create histogram
  hist(steps.per.day.sum.impute$steps, breaks = 20, col = &quot;darkgreen&quot;,xlab = &quot;Sum of steps per day&quot;,

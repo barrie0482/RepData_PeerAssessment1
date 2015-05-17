@@ -32,7 +32,20 @@ The data was unzipped and loaded from the zip file. The data file was pre-proces
  names(steps.per.day.sum)[2] <- "steps"
 # Calculate means and median steps per day
  mean.steps.per.day <- mean(steps.per.day.sum$steps, na.rm=TRUE)
+ mean.steps.per.day
+```
+
+```
+## [1] 9354.23
+```
+
+```r
  median.steps.per.day <- median(steps.per.day.sum$steps, na.rm=TRUE)
+ median.steps.per.day
+```
+
+```
+## [1] 10395
 ```
 
 
@@ -73,6 +86,12 @@ Median of the total number of steps taken per day: **10395**
  names(mean.interval) <- c("interval","average.steps")
 # Calculate interval for average maximum steps
  max.steps <- mean.interval[which(mean.interval$average.steps==max(mean.interval$average.steps,na.rm = TRUE)),][[1]]
+ max.steps
+```
+
+```
+## [1] 08:35
+## 288 Levels: 00:00 00:05 00:10 00:15 00:20 00:25 00:30 00:35 00:40 ... 23:55
 ```
 #### **Average maximum number of steps taken per day**
 The chart below shows the average daily activity pattern for the study period. The data shows the main span of activity is between 05:40 and 20:00. 
@@ -108,6 +127,11 @@ The interval with the average maximum number of steps taken per day is **08:35**
 ```r
 # Calculate the number of missing values
 mynas <- sum(is.na(mydata$steps))
+mynas
+```
+
+```
+## [1] 2304
 ```
   
 The calculated number of missing values in the dataset (i.e. the total number of rows with NAs) is **2304.**      
@@ -145,7 +169,20 @@ The strategy I selected for imputing missing (filling in all of the missing valu
  names(steps.per.day.sum.impute)[2] <- "steps"
  # Calculate mean and median for new dataset with imputed values
  mean.steps.per.day.impute <- mean(steps.per.day.sum.impute$steps,na.rm=TRUE)
+ mean.steps.per.day.impute
+```
+
+```
+## [1] 10766.19
+```
+
+```r
  median.steps.per.day.impute <- median(steps.per.day.sum.impute$steps,na.rm=TRUE)
+ median.steps.per.day.impute
+```
+
+```
+## [1] 10766.19
 ```
 
 
